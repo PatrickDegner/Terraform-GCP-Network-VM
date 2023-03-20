@@ -7,19 +7,19 @@ variable "machine_type" {
 }
 
 variable "zone" {
-  type    = string
+  type = string
 }
 
 variable "image" {
-  type    = string
+  type = string
 }
 
 variable "network" {
-  type    = string
+  type = string
 }
 
 variable "subnetwork" {
-  type    = string
+  type = string
 }
 
 variable "tags" {
@@ -34,12 +34,12 @@ variable "labels" {
 }
 
 variable "desired_status" {
-  type    = string
+  type = string
 }
 
 variable "ssh_keys" {
   type = list(object({
-    name      = string
+    name       = string
     public_key = string
   }))
   default = []
