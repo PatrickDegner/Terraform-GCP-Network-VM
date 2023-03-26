@@ -33,10 +33,6 @@ variable "labels" {
   default     = {}
 }
 
-variable "desired_status" {
-  type = string
-}
-
 variable "ssh_keys" {
   type = list(object({
     name       = string

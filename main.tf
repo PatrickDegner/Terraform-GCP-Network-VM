@@ -1,3 +1,14 @@
+terraform {
+  backend "gcs" {
+    bucket = "terraform-state-bucket-patrick"
+    prefix = "terraform/state"
+  }
+}
+
+provider "google" {
+  project = var.project_id
+  region  = var.region
+}
 
 module "vpc" {
   source      = "./vpc"
@@ -8,8 +19,8 @@ module "vpc" {
 }
 
 module "firewall_rules" {
-  source     = "./firewall_rules"
-  network    = module.vpc.vpc_name
+  source  = "./firewall_rules"
+  network = module.vpc.vpc_name
 }
 
 module "vm1" {
@@ -18,7 +29,6 @@ module "vm1" {
   machine_type   = "e2-micro"
   zone           = "europe-west3-c"
   image          = "ubuntu-2204-jammy-v20230302"
-  desired_status = "RUNNING"
 
   ssh_keys   = var.ssh_keys
   network    = module.vpc.vpc_name
