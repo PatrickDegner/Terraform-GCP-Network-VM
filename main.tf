@@ -1,16 +1,15 @@
 
 module "vpc" {
   source      = "./vpc"
-  project_id  = "dwh-dev-381113"
+  project_id  = var.project_id
   region      = var.region
   vpc_name    = var.network
-  subnet_cidr = "10.0.0.0/24"
+  subnet_cidr = var.subnet_cidr
 }
 
 module "firewall_rules" {
   source     = "./firewall_rules"
-  network    = var.network
-  depends_on = [module.vpc]
+  network    = module.vpc.vpc_name
 }
 
 module "vm1" {
@@ -22,17 +21,16 @@ module "vm1" {
   desired_status = "RUNNING"
 
   ssh_keys   = var.ssh_keys
-  network    = var.network
-  subnetwork = var.subnetwork
+  network    = module.vpc.vpc_name
+  subnetwork = module.vpc.vpc_subnet_name
   tags = [
-    "${var.network}-allow-icmp-ingress",
-    "${var.network}-allow-ssh-ingress",
-    "${var.network}-deny-all-egress"
+    "${module.vpc.vpc_name}-allow-icmp-ingress",
+    "${module.vpc.vpc_name}-allow-ssh-ingress",
+    "${module.vpc.vpc_name}-deny-all-egress"
   ]
   labels = {
     "env"      = "dev"
     "location" = "eu-west"
     "state"    = "active"
   }
-  depends_on = [module.vpc]
 }
