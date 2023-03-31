@@ -24,11 +24,11 @@ module "firewall_rules" {
 }
 
 module "vm1" {
-  source         = "./vm"
-  vm_name        = "vm-patrick1"
-  machine_type   = "e2-micro"
-  zone           = "europe-west3-c"
-  image          = "ubuntu-2204-jammy-v20230302"
+  source       = "./vm"
+  vm_name      = "vm-patrick1"
+  machine_type = "e2-micro"
+  zone         = "europe-west3-c"
+  image        = "ubuntu-2204-jammy-v20230302"
 
   ssh_keys   = var.ssh_keys
   network    = module.vpc.vpc_name
